@@ -3,48 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СМОТРЕТЬ ФИЛЬМ</title>
-    <script src="https://graphicslab.io/sdk/v2/rendex-sdk.min.js"></script>
-    <script type="text/javascript" src="https://v-js-menu.run/public/lib.en.min.js"></script>
-    
+    <title>Фильмы без заморочек</title>
     <style>
-        body { margin: 0; background-color: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        #player-container { width: 100%; max-width: 1000px; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; overflow: hidden; }
+        #player-wrapper { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
-    <div id="player-container">
+    <div id="player-wrapper">
         </div>
 
     <script>
-        // 1. Получаем ID фильма из URL (параметр ?id=...)
+        // 1. Берем ID из ссылки (?id=535341)
         const urlParams = new URLSearchParams(window.location.search);
         const movieKpId = urlParams.get('id');
 
         if (movieKpId) {
-            const container = document.getElementById('player-container');
+            const wrapper = document.getElementById('player-wrapper');
             
-            // 2. Создаем элемент <ins> программно
-            const player = document.createElement('ins');
-            player.setAttribute('data-publisher-id', '676952878');
-            player.setAttribute('data-type', 'kp'); // Используем поиск по Кинопоиску
-            player.setAttribute('data-id', movieKpId);
-            
-            // 3. Добавляем дизайн (ты просил 2 - монохром)
-            player.setAttribute('data-design', '2');
-            player.setAttribute('data-color1', '#333333');
-            player.setAttribute('data-color2', '#666666');
-            player.setAttribute('data-poster', 'true');
-            player.setAttribute('data-width', '100%');
-            player.setAttribute('data-height', '100%');
+            // 2. Сразу создаем строку с тегом, чтобы она была в DOM до загрузки SDK
+            // Используем data-type="kp" как ты и хотел
+            wrapper.innerHTML = `
+                <ins data-publisher-id="676952878" 
+                     data-publisher_id="676952878"
+                     data-type="kp" 
+                     data-id="${movieKpId}"
+                     data-design="2"
+                     data-color1="#333333"
+                     data-poster="true"
+                     data-width="100%"
+                     data-height="100%"></ins>
+            `;
 
-            container.appendChild(player);
+            // 3. Динамически загружаем скрипт плеера ПОСЛЕ того, как вставили тег
+            const script = document.createElement('script');
+            script.src = "https://graphicslab.io/sdk/v2/rendex-sdk.min.js";
+            document.head.appendChild(script);
+            
+            console.log("Плеер инициализирован для ID:", movieKpId);
         } else {
-            document.body.innerHTML = "<h2 style='color:white; text-align:center;'>ID фильма не найден</h2>";
+            document.body.innerHTML = "<h2 style='color:white; text-align:center; padding-top:20%;'>ID фильма не передан в ссылке</h2>";
         }
     </script>
 
     <ins id="vibix_union" data-publisher_id="676952878" data-add_types="brand,sticker,pcsticker,banners,flyroll"></ins>
+    <script type="text/javascript" src="https://v-js-menu.run/public/lib.en.min.js"></script>
+
 </body>
 </html>
