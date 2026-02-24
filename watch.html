@@ -2,6 +2,29 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
+    <script>
+        // ТВІЙ ВОРКЕР - МАЄ БУТИ ПЕРШИМ
+        const PROXY = "https://worker.s-artemiy0808.workers.dev/?url=";
+
+        // Перехоплювач запитів (Proxy Injection)
+        (function() {
+            const originalOpen = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function(method, url) {
+                if (url.includes('kinescopecdn.net') || url.includes('graphicslab.io')) {
+                    url = PROXY + encodeURIComponent(url);
+                }
+                return originalOpen.apply(this, [method, url]);
+            };
+
+            const originalFetch = window.fetch;
+            window.fetch = async (...args) => {
+                if (typeof args[0] === 'string' && (args[0].includes('kinescopecdn.net') || args[0].includes('graphicslab.io'))) {
+                    args[0] = PROXY + encodeURIComponent(args[0]);
+                }
+                return originalFetch(...args);
+            };
+        })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src *; img-src * data:; media-src * blob:;">
     <title>Кінозал</title>
@@ -9,31 +32,6 @@
 </head>
 <body>
     <ins id="vibix-player" data-publisher-id="676952878" data-type="kp" data-id="535341"></ins>
-
-    <script>
-        // ТВІЙ ВОРКЕР
-        const PROXY = "https://worker.s-artemiy0808.workers.dev/?url=";
-
-        // МАГІЯ: Перехоплюємо всі запити до заблокованих доменів
-        const bypass = (url) => {
-            if (typeof url === 'string' && (url.includes('kinescopecdn.net') || url.includes('graphicslab.io'))) {
-                return PROXY + encodeURIComponent(url);
-            }
-            return url;
-        };
-
-        const _fetch = window.fetch;
-        window.fetch = function() {
-            if (typeof arguments[0] === 'string') arguments[0] = bypass(arguments[0]);
-            return _fetch.apply(this, arguments);
-        };
-
-        const _open = XMLHttpRequest.prototype.open;
-        XMLHttpRequest.prototype.open = function() {
-            arguments[1] = bypass(arguments[1]);
-            return _open.apply(this, arguments);
-        };
-    </script>
 
     <script src="https://worker.s-artemiy0808.workers.dev/?url=https%3A%2F%2Fgraphicslab.io%2Fsdk%2Fv2%2Frendex-sdk.min.js"></script>
 
