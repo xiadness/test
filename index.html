@@ -59,42 +59,12 @@
     </div>
 
     <div id="player-wrapper"></div>
-
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const movieKpId = urlParams.get('id');
-        const wrapper = document.getElementById('player-wrapper');
-
-        if (movieKpId) {
-            // Вставляем тег плеера
-            wrapper.innerHTML = `
-                <ins data-publisher-id="676952878"
-                     data-type="kp"
-                     data-id="${movieKpId}"
-                     data-design="2"
-                     data-color1="#333333"
-                     data-poster="true"
-                     data-autoplay="false"
-                     data-width="100%"
-                     data-height="100%"></ins>
-            `;
-
-            // Загружаем SDK
-            const script = document.createElement('script');
-            script.src = "https://graphicslab.io/sdk/v2/rendex-sdk.min.js";
-            script.async = true;
-            
-            // Как только SDK загрузится, он сам перекроет надпись плеером
-            document.head.appendChild(script);
-
-        } else {
-            document.getElementById('loader').innerHTML = "Ошибка: ID фильма не найден.";
-        }
-    </script>
+    
  <ins data-publisher-id="676952878"
          data-type="movie"
          data-id="1"></ins>
 
 </body>
 </html>
+
 
