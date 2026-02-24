@@ -2,69 +2,43 @@
 <html lang="ru">
 <head>
     <script src="https://graphicslab.io/sdk/v2/rendex-sdk.min.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Смотреть фильм</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000000;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #player-wrapper {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 2; /* Плеер будет выше текста загрузки, когда появится */
-        }
-
-        /* Стиль для текста загрузки */
-        #loader {
-            position: absolute;
-            z-index: 1;
-            text-align: center;
-        }
-
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-left-color: #ffffff;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
-    <script type="text/javascript" src="https://v-js-menu.run/public/lib.en.min.js"></script>
-<ins id="vibix_union" data-publisher_id="676952878" data-add_types="brand,sticker,pcsticker,banners,flyroll"></ins>
 </head>
 <body>
-
-    <div id="loader">
-        <div class="spinner"></div>
-        <div>Плеер загружается, подождите...</div>
-    </div>
-
     <div id="player-wrapper"></div>
-    
- <ins data-publisher-id="676952878"
-         data-type="movie"
-         data-id="1"></ins>
+<script>
+        // 1. Получаем ID фильма из параметра ссылки (например, ?id=535341)
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieKpId = urlParams.get('id');
 
+        const wrapper = document.getElementById('player-wrapper');
+
+        // Если ID есть в ссылке, создаем плеер
+        if (movieKpId) {
+            // Вставляем тег плеера с нужным ID и настройками
+            // Используем дизайн 2 (монохром) и растягиваем на 100%
+            wrapper.innerHTML = `
+                <ins data-publisher-id="676952878"
+                     data-type="kp"
+                     data-id="${movieKpId}"
+                     data-design="2"
+                     data-color1="#333333"
+                     data-poster="true"
+                     data-autoplay="false"
+                     data-width="100%"
+                     data-height="100%"></ins>
+            `;
+
+            // Динамически подключаем скрипт SDK плеера ПОСЛЕ вставки тега
+            // Это нужно, чтобы скрипт точно увидел тег <ins>
+            const script = document.createElement('script');
+            script.src = "https://graphicslab.io/sdk/v2/rendex-sdk.min.js";
+            script.async = true;
+            document.head.appendChild(script);
+
+        } else {
+            // Если ID не передали, покажем сообщение
+            wrapper.innerHTML = "<h2 style='color: #fff; text-align: center;'>Ошибка: ID фильма не найден.</h2>";
+        }
+    </script>
 </body>
 </html>
-
-
