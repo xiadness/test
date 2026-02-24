@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Просмотр фильма</title>
     <script src="https://graphicslab.io/sdk/v2/rendex-sdk.min.js"></script>
-    <style>
-        body { background-color: #000; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
-    </style>
 </head>
 <body>
 
@@ -16,17 +13,5 @@
          data-type="kp" 
          data-id="535341"></ins>
 
-    <script>
-        // Этот скрипт берет ID из ссылки (например, ?id=535341) и вставляет в плеер
-        const urlParams = new URLSearchParams(window.location.search);
-        const movieId = urlParams.get('id');
-        const type = urlParams.get('type') || 'kp'; // По умолчанию Кинопоиск
-
-        if (movieId) {
-            const player = document.getElementById('vibix-player');
-            player.setAttribute('data-id', movieId);
-            player.setAttribute('data-type', type);
-        }
-    </script>
 </body>
 </html>
