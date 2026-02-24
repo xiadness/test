@@ -7,6 +7,18 @@
     <script src="https://graphicslab.io/sdk/v2/rendex-sdk.min.js"></script>
 </head>
 <body>
+    <script>
+        // Этот скрипт берет ID из ссылки (например, ?id=535341) и вставляет в плеер
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = urlParams.get('id');
+        const type = urlParams.get('type') || 'kp'; // По умолчанию Кинопоиск
+
+        if (movieId) {
+            const player = document.getElementById('vibix-player');
+            player.setAttribute('data-id', movieId);
+            player.setAttribute('data-type', type);
+        }
+    </script>
 
     <ins id="vibix-player" 
          data-publisher-id="676952878" 
